@@ -1,16 +1,29 @@
 package main
 
 import (
+	"encoding/json"
 	"net/smtp"
 	"os"
 )
 
+type data struct {
+	User        string
+	AppPassword string
+}
+
 func sendSimpleMail() {
-	msg := "Subject: TimeTable verification code\nYour Code is 1234. Kindly share this with everyone, it's just a test, doesn't matter :)"
-	user := os.Getenv("user")
-	appPass := os.Getenv("appPassword")
-	auth := smtp.PlainAuth("", user, appPass, "smtp.gmail.com")
-	err := smtp.SendMail("smtp.gmail.com:587", auth, user, []string{"ha470474@gmail.com"}, []byte(msg))
+	var data data
+	file, err := os.ReadFile("data.json")
+	if err != nil {
+		panic(err)
+	}
+	err = json.Unmarshal(file, &data)
+	if err != nil {
+		panic(err)
+	}
+	msg := "Subject: Verification code\nYour code is 1232123.\n\tCheck out github.com/Harsh-apk/goLangMailSender"
+	auth := smtp.PlainAuth("", data.User, data.AppPassword, "smtp.gmail.com")
+	err = smtp.SendMail("smtp.gmail.com:587", auth, data.User, []string{"ha470474@gmail.com"}, []byte(msg))
 	if err != nil {
 		panic(err)
 	}
