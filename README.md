@@ -4,7 +4,7 @@ This is a simple code to demonstrate: "How to send email using Google's smtp ser
 .env file is not included in this repo.
 
 env file contents:
-user="user's email id"\n
+user="user's email id"
 appPassword="user's app pasword"
 
 example :
